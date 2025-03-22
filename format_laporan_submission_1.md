@@ -14,74 +14,73 @@ Perusahaan asuransi ingin mengetahui model terbaik yang dapat memprediksi biaya 
 Bagian laporan ini mencakup:
 
 ### Problem Statements
-
-Bagaimana memprediksi biaya asuransi berdasarkan faktor usia, BMI, status merokok, dan variabel lainnya?
+1. Bagaimana memprediksi biaya asuransi berdasarkan faktor usia, BMI, status merokok, dan variabel lainnya?
+2. Algoritma apa yang paling baik dalam memodelkan prediksi biaya asuransi?
 
 ### Goals
+1. Membangun model machine learning yang mampu memprediksi biaya asuransi dengan akurasi yang baik.
+2. Membandingkan beberapa model (Linear Regression, Random Forest, dan XGBoost) dan memilih model terbaik berdasarkan metrik evaluasi.
 
-Menentukan algoritma machine learning terbaik yang dapat memodelkan prediksi biaya asuransi dengan akurasi tinggi.
+Solution Statements
+
+- Membangun model regresi linier sebagai baseline.
+- Melakukan pemodelan menggunakan Random Forest Regressor untuk menangkap pola non-linear.
+- Melakukan pemodelan menggunakan XGBoost sebagai advanced model.
+- Membandingkan hasil ketiga model berdasarkan MAE, MSE, dan R² Score.
 
 ## Data Understanding
 Dataset yang digunakan adalah Medical Cost Personal Dataset dari Kaggle, dengan total 1.338 sampel data.
 
 Variabel-variabel dalam dataset:
 
-age : usia pemegang asuransi
-
-sex : jenis kelamin (male/female)
-
-bmi : body mass index
-
-children : jumlah anak
-
-smoker : status merokok (yes/no)
-
-region : wilayah tempat tinggal
-
-charges : biaya klaim asuransi (target variabel)
-
-Visualisasi data dilakukan untuk melihat korelasi antar variabel dan distribusi biaya asuransi.
-
-Selanjutnya uraikanlah seluruh variabel atau fitur pada data. Sebagai contoh:  
-
-### Variabel-variabel pada Restaurant UCI dataset adalah sebagai berikut:
-- accepts : merupakan jenis pembayaran yang diterima pada restoran tertentu.
-- cuisine : merupakan jenis masakan yang disajikan pada restoran.
-- dst
-
-**Rubrik/Kriteria Tambahan (Opsional)**:
-- Melakukan beberapa tahapan yang diperlukan untuk memahami data, contohnya teknik visualisasi data atau exploratory data analysis.
+- age : usia pemegang asuransi
+- sex : jenis kelamin (male/female)
+- bmi : body mass index
+- children : jumlah anak
+- smoker : status merokok (yes/no)
+- region : wilayah tempat tinggal
+- charges : biaya klaim asuransi (target variabel)
+- Visualisasi data dilakukan untuk melihat korelasi antar variabel dan distribusi biaya asuransi.
+- Selanjutnya uraikanlah seluruh variabel atau fitur pada data. Sebagai contoh:  
 
 ## Data Preparation
-Pada bagian ini Anda menerapkan dan menyebutkan teknik data preparation yang dilakukan. Teknik yang digunakan pada notebook dan laporan harus berurutan.
+- Mengecek missing values (tidak ditemukan missing values dalam dataset).
+- Melakukan encoding pada variabel kategorikal (sex, smoker, region) menggunakan pd.get_dummies.
+- Melakukan feature scaling pada variabel numerik dengan StandardScaler.
+- Memisahkan data menjadi data latih (80%) dan data uji (20%).
 
-**Rubrik/Kriteria Tambahan (Opsional)**: 
-- Menjelaskan proses data preparation yang dilakukan
-- Menjelaskan alasan mengapa diperlukan tahapan data preparation tersebut.
+  Alasan dilakukan data preparation:
+- Encoding diperlukan agar model dapat membaca variabel kategorikal.
+- Scaling membantu model convergen lebih baik, terutama pada model linear dan tree-based yang sensitif terhadap skala.
 
 ## Modeling
-Tahapan ini membahas mengenai model machine learning yang digunakan untuk menyelesaikan permasalahan. Anda perlu menjelaskan tahapan dan parameter yang digunakan pada proses pemodelan.
+Tiga algoritma yang digunakan:
+1. Linear Regression
+   Kelebihan: Sederhana dan interpretatif.
+   Kekurangan: Tidak mampu menangkap pola non-linear.
 
-**Rubrik/Kriteria Tambahan (Opsional)**: 
-- Menjelaskan kelebihan dan kekurangan dari setiap algoritma yang digunakan.
-- Jika menggunakan satu algoritma pada solution statement, lakukan proses improvement terhadap model dengan hyperparameter tuning. **Jelaskan proses improvement yang dilakukan**.
-- Jika menggunakan dua atau lebih algoritma pada solution statement, maka pilih model terbaik sebagai solusi. **Jelaskan mengapa memilih model tersebut sebagai model terbaik**.
+2. Random Forest Regressor
+   Kelebihan: Dapat menangkap pola non-linear, tahan terhadap outlier.
+   Kekurangan: Memerlukan tuning parameter agar hasil optimal.
+
+3. XGBoost Regressor
+   Kelebihan: Memiliki performa tinggi, dapat mengatasi overfitting dengan regularisasi.
+   Kekurangan: Lebih kompleks dan memerlukan waktu komputasi lebih lama.
+
+- Parameter yang digunakan:
+  1. Random Forest: default hyperparameters dengan random_state=42
+  2. XGBoost: default hyperparameters dengan random_state=42
 
 ## Evaluation
-Pada bagian ini anda perlu menyebutkan metrik evaluasi yang digunakan. Lalu anda perlu menjelaskan hasil proyek berdasarkan metrik evaluasi yang digunakan.
+| Model              | MAE       | MSE            | R² Score |
+|--------------------|-----------|----------------|----------|
+| Linear Regression  | 4181.19   | 33,596,915.85  | 0.7836   |
+| Random Forest      | 2545.21   | 20,866,223.20  | 0.8656   |
+| XGBoost            | 2765.75   | 23,434,704.62  | 0.8491   |
 
-Sebagai contoh, Anda memiih kasus klasifikasi dan menggunakan metrik **akurasi, precision, recall, dan F1 score**. Jelaskan mengenai beberapa hal berikut:
-- Penjelasan mengenai metrik yang digunakan
-- Menjelaskan hasil proyek berdasarkan metrik evaluasi
+- Model Random Forest menunjukkan performa terbaik dengan R² tertinggi dan kesalahan prediksi paling kecil.
+- Model ini dapat digunakan untuk membantu estimasi biaya asuransi bagi perusahaan maupun individu.
+- Dapat ditingkatkan dengan menambahkan fitur eksternal seperti riwayat medis dan faktor risiko tambahan.
 
-Ingatlah, metrik evaluasi yang digunakan harus sesuai dengan konteks data, problem statement, dan solusi yang diinginkan.
 
-**Rubrik/Kriteria Tambahan (Opsional)**: 
-- Menjelaskan formula metrik dan bagaimana metrik tersebut bekerja.
-
-**---Ini adalah bagian akhir laporan---**
-
-_Catatan:_
-- _Anda dapat menambahkan gambar, kode, atau tabel ke dalam laporan jika diperlukan. Temukan caranya pada contoh dokumen markdown di situs editor [Dillinger](https://dillinger.io/), [Github Guides: Mastering markdown](https://guides.github.com/features/mastering-markdown/), atau sumber lain di internet. Semangat!_
-- Jika terdapat penjelasan yang harus menyertakan code snippet, tuliskan dengan sewajarnya. Tidak perlu menuliskan keseluruhan kode project, cukup bagian yang ingin dijelaskan saja.
 
