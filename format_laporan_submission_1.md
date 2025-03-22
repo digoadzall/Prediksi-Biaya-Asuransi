@@ -1,46 +1,46 @@
-# Laporan Proyek Machine Learning - Nama Anda
+# Laporan Proyek Machine Learning - Muhammad Faizal Pratama
 
 ## Domain Proyek
 
-Pada bagian ini, kamu perlu menuliskan latar belakang yang relevan dengan proyek yang diangkat.
+Asuransi kesehatan merupakan sektor penting yang membutuhkan prediksi biaya yang akurat. Banyak faktor yang mempengaruhi besarnya premi asuransi yang harus dibayarkan oleh individu, seperti usia, jenis kelamin, BMI, status merokok, jumlah anak, dan lokasi tempat tinggal. Perusahaan asuransi perlu mengestimasi biaya ini untuk menetapkan premi yang adil, sedangkan individu ingin mengetahui proyeksi biaya yang harus disiapkan.
+Menurut penelitian Medical Expenditure Panel Survey (MEPS), faktor usia, obesitas, dan kebiasaan merokok menjadi faktor terbesar yang memengaruhi besarnya biaya perawatan kesehatan di Amerika Serikat.
 
-**Rubrik/Kriteria Tambahan (Opsional)**:
-- Jelaskan mengapa dan bagaimana masalah tersebut harus diselesaikan
-- Menyertakan hasil riset terkait atau referensi. Referensi yang diberikan harus berasal dari sumber yang kredibel dan author yang jelas.
-  
-  Format Referensi: [Judul Referensi](https://scholar.google.com/) 
+Referensi:The Medical Expenditure Panel Survey (MEPS) Overview. (Agency for Healthcare Research and Quality - ahrq.gov)
 
 ## Business Understanding
 
-Pada bagian ini, kamu perlu menjelaskan proses klarifikasi masalah.
+Perusahaan asuransi ingin mengetahui model terbaik yang dapat memprediksi biaya asuransi berdasarkan data pelanggan. Prediksi yang akurat dapat membantu menetapkan premi yang adil dan menghindari kerugian.
 
 Bagian laporan ini mencakup:
 
 ### Problem Statements
 
-Menjelaskan pernyataan masalah latar belakang:
-- Pernyataan Masalah 1
-- Pernyataan Masalah 2
-- Pernyataan Masalah n
+Bagaimana memprediksi biaya asuransi berdasarkan faktor usia, BMI, status merokok, dan variabel lainnya?
 
 ### Goals
 
-Menjelaskan tujuan dari pernyataan masalah:
-- Jawaban pernyataan masalah 1
-- Jawaban pernyataan masalah 2
-- Jawaban pernyataan masalah n
-
-Semua poin di atas harus diuraikan dengan jelas. Anda bebas menuliskan berapa pernyataan masalah dan juga goals yang diinginkan.
-
-**Rubrik/Kriteria Tambahan (Opsional)**:
-- Menambahkan bagian “Solution Statement” yang menguraikan cara untuk meraih goals. Bagian ini dibuat dengan ketentuan sebagai berikut: 
-
-    ### Solution statements
-    - Mengajukan 2 atau lebih solution statement. Misalnya, menggunakan dua atau lebih algoritma untuk mencapai solusi yang diinginkan atau melakukan improvement pada baseline model dengan hyperparameter tuning.
-    - Solusi yang diberikan harus dapat terukur dengan metrik evaluasi.
+Menentukan algoritma machine learning terbaik yang dapat memodelkan prediksi biaya asuransi dengan akurasi tinggi.
 
 ## Data Understanding
-Paragraf awal bagian ini menjelaskan informasi mengenai data yang Anda gunakan dalam proyek. Sertakan juga sumber atau tautan untuk mengunduh dataset. Contoh: [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/Restaurant+%26+consumer+data).
+Dataset yang digunakan adalah Medical Cost Personal Dataset dari Kaggle, dengan total 1.338 sampel data.
+
+Variabel-variabel dalam dataset:
+
+age : usia pemegang asuransi
+
+sex : jenis kelamin (male/female)
+
+bmi : body mass index
+
+children : jumlah anak
+
+smoker : status merokok (yes/no)
+
+region : wilayah tempat tinggal
+
+charges : biaya klaim asuransi (target variabel)
+
+Visualisasi data dilakukan untuk melihat korelasi antar variabel dan distribusi biaya asuransi.
 
 Selanjutnya uraikanlah seluruh variabel atau fitur pada data. Sebagai contoh:  
 
