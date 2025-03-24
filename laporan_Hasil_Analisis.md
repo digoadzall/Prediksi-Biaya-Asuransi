@@ -2,10 +2,13 @@
 
 ## Domain Proyek
 
-Asuransi kesehatan merupakan sektor penting yang membutuhkan prediksi biaya yang akurat. Banyak faktor yang mempengaruhi besarnya premi asuransi yang harus dibayarkan oleh individu, seperti usia, jenis kelamin, BMI, status merokok, jumlah anak, dan lokasi tempat tinggal. Perusahaan asuransi perlu mengestimasi biaya ini untuk menetapkan premi yang adil, sedangkan individu ingin mengetahui proyeksi biaya yang harus disiapkan.
-Menurut penelitian Medical Expenditure Panel Survey (MEPS), faktor usia, obesitas, dan kebiasaan merokok menjadi faktor terbesar yang memengaruhi besarnya biaya perawatan kesehatan di Amerika Serikat.
+Asuransi kesehatan merupakan sektor penting yang membutuhkan prediksi biaya yang akurat. Banyak faktor yang memengaruhi besarnya premi asuransi yang harus dibayarkan oleh individu, seperti usia, jenis kelamin, BMI, status merokok, jumlah anak, dan lokasi tempat tinggal.
 
-Referensi:The Medical Expenditure Panel Survey (MEPS) Overview. (Agency for Healthcare Research and Quality - ahrq.gov)
+Dengan menggunakan model machine learning, perusahaan asuransi dapat memproses data historis dan mempelajari pola hubungan antara faktor-faktor tersebut dengan biaya asuransi. Hasil dari model ini akan membantu perusahaan menentukan premi asuransi yang lebih adil dan akurat, sekaligus membantu individu memperkirakan biaya yang akan mereka keluarkan.
+
+Model machine learning yang dibangun dapat digunakan untuk mengotomatisasi proses prediksi, mempercepat pengambilan keputusan, serta mengurangi risiko kesalahan perhitungan yang selama ini mungkin terjadi dengan metode manual.
+
+Referensi: The Medical Expenditure Panel Survey (MEPS) Overview. (Agency for Healthcare Research and Quality - ahrq.gov)
 
 ## Business Understanding
 
@@ -29,10 +32,10 @@ Solution Statements
 - Membandingkan hasil ketiga model berdasarkan MAE, MSE, dan R² Score.
 
 ## Data Understanding
-Dataset yang digunakan adalah Medical Cost Personal Dataset dari Kaggle, dengan total 1.338 sampel data.
+Dataset yang digunakan adalah Medical Cost Personal Dataset dari Kaggle, dengan total 1.338 baris dan 7 kolom data.
+Sumber data: Medical Cost Personal Dataset - Kaggle
 
-Variabel-variabel dalam dataset:
-
+Variabel dalam dataset:
 - age : usia pemegang asuransi
 - sex : jenis kelamin (male/female)
 - bmi : body mass index
@@ -40,10 +43,16 @@ Variabel-variabel dalam dataset:
 - smoker : status merokok (yes/no)
 - region : wilayah tempat tinggal
 - charges : biaya klaim asuransi (target variabel)
-- Visualisasi data dilakukan untuk melihat korelasi antar variabel dan distribusi biaya asuransi.
-- Selanjutnya uraikanlah seluruh variabel atau fitur pada data. Sebagai contoh:
-- Mengecek missing values (tidak ditemukan missing values dalam dataset).
+Kondisi Data
+- Missing values : Tidak ditemukan missing values dalam dataset.
+- Duplikat data : Tidak ditemukan data duplikat.
+- Outlier : Ditemukan beberapa outlier pada variabel charges, terutama pada biaya asuransi yang sangat tinggi, namun hal ini wajar karena adanya individu dengan risiko kesehatan tinggi (misalnya perokok dan BMI tinggi).
 
+Insight Awal dari Visualisasi:
+- Terdapat korelasi positif antara age, BMI, dan smoker terhadap charges.
+- Individu dengan status smoker cenderung memiliki biaya asuransi jauh lebih tinggi.
+- Variabel region tidak menunjukkan pengaruh besar terhadap biaya asuransi.
+  
 ## Data Preparation
 - Melakukan encoding pada variabel kategorikal (sex, smoker, region) menggunakan pd.get_dummies.
 - Melakukan feature scaling pada variabel numerik dengan StandardScaler.
@@ -54,33 +63,20 @@ Variabel-variabel dalam dataset:
 - Scaling membantu model convergen lebih baik, terutama pada model linear dan tree-based yang sensitif terhadap skala.
 
 ## Modeling
-Tiga algoritma yang digunakan:
+Dalam proyek ini, digunakan tiga algoritma machine learning untuk memodelkan prediksi biaya asuransi, yaitu Linear Regression, Random Forest Regressor, dan XGBoost Regressor.
+
 1. Linear Regression
-   Kelebihan: Sederhana dan interpretatif.
-   Kekurangan: Tidak mampu menangkap pola non-linear.
+Linear Regression bekerja dengan mencari garis lurus terbaik yang memetakan hubungan antara variabel input (fitur) dan output (target). Model ini menghitung koefisien pada setiap fitur sehingga persamaan linear dapat memprediksi target. Model akan meminimalkan selisih (error) antara nilai prediksi dan nilai aktual dengan metode Ordinary Least Squares (OLS).
+- Model ini cocok jika hubungan antar variabel bersifat linear.
 
 2. Random Forest Regressor
-   Kelebihan: Dapat menangkap pola non-linear, tahan terhadap outlier.
-   Kekurangan: Memerlukan tuning parameter agar hasil optimal.
+Random Forest adalah algoritma ensemble yang membangun banyak decision tree dari subset data yang diambil secara acak (bootstrapping), lalu hasil dari semua pohon digabungkan (rata-rata) untuk memberikan prediksi akhir.
+- Model ini dapat menangkap hubungan non-linear, mengurangi overfitting dibandingkan satu decision tree, dan bekerja baik pada data yang kompleks.
 
 3. XGBoost Regressor
-   Kelebihan: Memiliki performa tinggi, dapat mengatasi overfitting dengan regularisasi.
-   Kekurangan: Lebih kompleks dan memerlukan waktu komputasi lebih lama.
+XGBoost (Extreme Gradient Boosting) adalah algoritma boosting yang bekerja dengan membuat model secara bertahap (sekuensial). Setiap model baru berusaha memperbaiki kesalahan model sebelumnya dengan memfokuskan pada residual errors (error yang belum bisa diprediksi dengan baik).
+- Model ini menggunakan teknik regularization dan pruning untuk menghindari overfitting, serta dikenal cepat dan akurat.
 
-- Parameter yang digunakan:
-  1. Random Forest: default hyperparameters dengan random_state=42
-  2. XGBoost: default hyperparameters dengan random_state=42
-
-## Evaluation
-| Model              | MAE       | MSE            | R² Score |
-|--------------------|-----------|----------------|----------|
-| Linear Regression  | 4181.19   | 33,596,915.85  | 0.7836   |
-| Random Forest      | 2545.21   | 20,866,223.20  | 0.8656   |
-| XGBoost            | 2765.75   | 23,434,704.62  | 0.8491   |
-
-- Model Random Forest menunjukkan performa terbaik dengan R² tertinggi dan kesalahan prediksi paling kecil.
-- Model ini dapat digunakan untuk membantu estimasi biaya asuransi bagi perusahaan maupun individu.
-- Dapat ditingkatkan dengan menambahkan fitur eksternal seperti riwayat medis dan faktor risiko tambahan.
-
-
-
+Parameter
+Random Forest: digunakan dengan default hyperparameters, random_state=42
+XGBoost: digunakan dengan default hyperparameters, random_state=42
