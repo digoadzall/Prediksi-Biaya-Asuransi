@@ -41,10 +41,10 @@ Variabel-variabel dalam dataset:
 - region : wilayah tempat tinggal
 - charges : biaya klaim asuransi (target variabel)
 - Visualisasi data dilakukan untuk melihat korelasi antar variabel dan distribusi biaya asuransi.
-- Selanjutnya uraikanlah seluruh variabel atau fitur pada data. Sebagai contoh:  
+- Selanjutnya uraikanlah seluruh variabel atau fitur pada data. Sebagai contoh:
+- Mengecek missing values (tidak ditemukan missing values dalam dataset).
 
 ## Data Preparation
-- Mengecek missing values (tidak ditemukan missing values dalam dataset).
 - Melakukan encoding pada variabel kategorikal (sex, smoker, region) menggunakan pd.get_dummies.
 - Melakukan feature scaling pada variabel numerik dengan StandardScaler.
 - Memisahkan data menjadi data latih (80%) dan data uji (20%).
