@@ -32,26 +32,32 @@ Solution Statements
 - Membandingkan hasil ketiga model berdasarkan MAE, MSE, dan R² Score.
 
 ## Data Understanding
-Dataset yang digunakan adalah Medical Cost Personal Dataset dari Kaggle, dengan total 1.338 baris dan 7 kolom data.
-Sumber data: Medical Cost Personal Dataset - Kaggle
+Dataset yang digunakan adalah **Medical Cost Personal Dataset** dari **Kaggle**, dengan total **1.338 baris dan 7 kolom**.  
+**Sumber data:** [Medical Cost Personal Dataset - Kaggle](https://www.kaggle.com/datasets/mirichoi0218/insurance)  
 
 Variabel dalam dataset:
-- age : usia pemegang asuransi
-- sex : jenis kelamin (male/female)
-- bmi : body mass index
-- children : jumlah anak
-- smoker : status merokok (yes/no)
-- region : wilayah tempat tinggal
-- charges : biaya klaim asuransi (target variabel)
-Kondisi Data
-- Missing values : Tidak ditemukan missing values dalam dataset.
-- Duplikat data : Tidak ditemukan data duplikat.
-- Outlier : Ditemukan beberapa outlier pada variabel charges, terutama pada biaya asuransi yang sangat tinggi, namun hal ini wajar karena adanya individu dengan risiko kesehatan tinggi (misalnya perokok dan BMI tinggi).
+1. **age** : Usia pemegang asuransi  
+2. **sex** : Jenis kelamin (male/female)  
+3. **bmi** : Body mass index (BMI)  
+4. **children** : Jumlah anak  
+5. **smoker** : Status merokok (yes/no)  
+6. **region** : Wilayah tempat tinggal  
+7. **charges** : Biaya klaim asuransi (target variabel)  
+
+Kondisi Data:
+- **Jumlah data:** 1.338 baris dan 7 kolom  
+- **Missing values:** Tidak ditemukan missing values dalam dataset.  
+- **Duplikat data:** Tidak ditemukan data duplikat.  
+- **Outlier:**  
+  - Ditemukan beberapa **outlier pada variabel `charges`** (biaya asuransi).  
+  - Outlier terutama berasal dari **individu dengan BMI tinggi dan perokok**, yang cenderung memiliki biaya asuransi jauh lebih tinggi.  
 
 Insight Awal dari Visualisasi:
-- Terdapat korelasi positif antara age, BMI, dan smoker terhadap charges.
-- Individu dengan status smoker cenderung memiliki biaya asuransi jauh lebih tinggi.
-- Variabel region tidak menunjukkan pengaruh besar terhadap biaya asuransi.
+- **Smoker dan BMI tinggi memiliki pengaruh besar** terhadap biaya asuransi.  
+- **Usia memiliki korelasi positif dengan `charges`**, artinya semakin tua seseorang, semakin tinggi biaya asuransi.  
+- **Variabel `region` tidak menunjukkan pengaruh signifikan** terhadap biaya asuransi.  
+
+Hasil ini menunjukkan bahwa faktor risiko kesehatan seperti **status perokok dan obesitas** berkontribusi besar terhadap biaya asuransi yang harus dibayarkan.
   
 ## Data Preparation
 - Melakukan encoding pada variabel kategorikal (sex, smoker, region) menggunakan pd.get_dummies.
@@ -80,3 +86,35 @@ XGBoost (Extreme Gradient Boosting) adalah algoritma boosting yang bekerja denga
 Parameter
 Random Forest: digunakan dengan default hyperparameters, random_state=42
 XGBoost: digunakan dengan default hyperparameters, random_state=42
+
+## Evaluasi
+
+Pada bagian ini, kita mengevaluasi performa model menggunakan tiga metrik utama:
+
+1. **Mean Absolute Error (MAE)**  
+   - Mengukur rata-rata selisih absolut antara nilai aktual dan prediksi.  
+   - Nilai lebih kecil menunjukkan model yang lebih akurat.  
+
+2. **Mean Squared Error (MSE)**  
+   - Menghitung rata-rata selisih kuadrat antara nilai aktual dan prediksi.  
+   - Lebih sensitif terhadap outlier karena selisih dikuadratkan.  
+
+3. **R² Score (Koefisien Determinasi)**  
+   - Mengukur seberapa baik model menjelaskan variasi data.  
+   - Nilai mendekati 1 berarti model memiliki performa yang baik.  
+
+### Hasil Evaluasi Model
+
+| Model              | MAE       | MSE            | R² Score |
+|--------------------|-----------|----------------|----------|
+| Linear Regression  | 4181.19   | 33,596,915.85  | 0.7836   |
+| Random Forest      | 2545.21   | 20,866,223.20  | 0.8656   |
+| XGBoost            | 2765.75   | 23,434,704.62  | 0.8491   |
+
+### Analisis Hasil
+
+- **Random Forest** memiliki **R² Score tertinggi (0.8656)** serta **MAE dan MSE terendah**, sehingga menjadi model terbaik dalam memprediksi biaya asuransi.  
+- **Linear Regression** menunjukkan performa paling rendah karena model ini hanya menangkap hubungan linear antara fitur dan target.  
+- **XGBoost** juga memberikan hasil yang baik, tetapi sedikit lebih rendah dibandingkan Random Forest. Dengan tuning lebih lanjut, performanya bisa meningkat.  
+
+Dari hasil ini, **Random Forest** direkomendasikan sebagai model utama untuk prediksi biaya asuransi. Model ini dapat dikembangkan lebih lanjut dengan menambahkan fitur tambahan seperti riwayat medis dan faktor risiko lainnya.  
